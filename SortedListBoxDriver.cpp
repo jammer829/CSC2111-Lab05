@@ -19,6 +19,13 @@ void addCDs(ListArray<CD>* list, ListBox<CD>* lb)
 
    //DO THIS
    //iterate over and add the cds to the list box (use lb->addItem)
+      int count = 1;
+   while(iter->hasNext())
+   {
+      CD* cd = list->get(count);
+      lb->addItem(cd);
+      count++;
+   }
 
 
 
