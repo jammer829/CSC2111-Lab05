@@ -101,22 +101,15 @@ NextNode<T>** SortedListLinked<T>::find(T* item)
 {
    NextNode<T>* prev = NULL;
    NextNode<T>* curr = head;
-   NextNode<T>* after = NULL;
 
    //DO THIS
    //loop to find the correct location to insert/remove item
-	ListLinkedIterator<T>* iter = iterator();
-	while (curr->hasNext()&&comp!=0)
-	{
-		prev=curr;
-		curr=curr->getNext();
-		after=curr->getNext();
-		if ((*compare_items) (T* item, T* after)>=0)
-			int comp=0;
-	}
 
-
-
+   while(curr != NULL && (*compare_items(item,curr->getItem) != 0))
+   {
+       prev = curr;
+       curr = curr->getNext();
+   }  
 
    //could simply return prev and compute curr, but prev might be null
    //this way results in somewhat simpler code in add and remove
@@ -147,33 +140,16 @@ void SortedListLinked<T>::add(T* item)
 
    //DO THIS
    //adding to the top of the list (check prev)
-   if (prev==NULL&&(*compare_items) (T* item, T* curr)>=0)
-   {
-		if((*compare_items) (T* item, T* curr)<=0)
-		{
-			prev->setNext(node);
-			node->setNext(curr)
-			sze++;
-		}
-		else 
-		{
-			curr->setNext(node);
-		}	
+   if (prev == NULL)
+   {   
+      curr = curr->getNext();
+      head = node;
+
    }
    else    //general add
    {
-		if(curr->hasNext())
-		{
-			
-			NextNode<T>* after = curr->getNext();
-			curr->setNext(node);
-			node->setNext(after);
-			sze++;
-		}
-		else 
-		{
-			curr->setNext(node);
-		}	
+
+
 
 
    }
@@ -208,26 +184,24 @@ void SortedListLinked<T>::remove(T* item)
    int compare = (*compare_items) (item, curr->getItem());
 
    //determine whether the item to be removed is present
-   if (                       )
+   if (compare != 0)
    {
       return;  //item not present
    }
 
    //DO THIS
    //removing the top item (check prev)
-   if (         )
+   if (prev == NULL)
    {
-
-
-
+      curr = NULL;
+      nodes = NULL;
 
    }
    else  //general remove
    {
-
-
-
-
+      NextNode<T>* after = curr->getNext();
+      prev->setNext(after);
+      delete curr;
    }
 
    delete curr;
@@ -239,5 +213,6 @@ ListLinkedIterator<T>* SortedListLinked<T>::iterator()
 {
    return new ListLinkedIterator<T>(head);
 }
+
 
 #endif
